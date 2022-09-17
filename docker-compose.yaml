@@ -1,40 +1,35 @@
 version: "3"
 services:
   rstudio:
-  image: rocker/rstudio:latest
-  container_name: rstudio
-  restart: unless-stopped
-  env_file: .rstudio.env
-  ports:
-    - "8787:8787"
-  environment:
-   PASSWORD: Hurray427@
-  volumes:
-    - type: volumes
-      source: rstudio
-      target: /home/rstudio
-    - type: bind
-      source: ./projects
-      target: /home/rstudio/projects
-    - type: volume
-      source: r_libs
-      target: /usr/local/lib/r_libs
-    - ./.rstudio_config:/home/rstudio/.config/rstudio
-    - ~/workspace:/home/rstudio/workspace
-  networks:
-    - rstudio-net
-  expose:
-    - 8787
+    image: rocker/rstudio
+    container_name: rstudio
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+    environment:
+      PASSWORD: Hurray427@
+    volumes:
+      - type: volume
+        source: rstudio
+        target: /home/rstudio
+      - type: bind
+        source: ./projects
+        target: /home/rstudio/projects
+      - type: volume
+        source: r_libs
+        target: /usr/local/lib/r_libs
+      - ./.rstudio_config:/home/rstudio/.config/rstudio
+      - ~/workspace:/home/rstudio/workspace
+    networks:
+      rstudio-net:
 
 networks:
   rstudio-net:
     ipam:
       driver: default
       config:
-        -subnet: "10.56.1.0/24"
+        - subnet: "10.56.1.0/24"
 
 volumes:
   r_libs:
   rstudio:
-
-   
